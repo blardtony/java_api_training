@@ -15,17 +15,16 @@ public class Launcher {
         int port = Integer.parseInt(args[0]);
         try {
             System.out.println("Server start at port " + port);
-            HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-            server.setExecutor(Executors.newSingleThreadExecutor());
-            server.createContext("/ping", Launcher::handle );
-            server.start();
+            new Server().start(port);
+            //server.createContext("/api/game/start", Launcher::startGame );
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
-    private static void handle(HttpExchange exchange) throws IOException {
-        String body = "OK";
+    private static void startGame(HttpExchange exchange) throws IOException {
+        exchange.getResponseHeaders().set("Content-type", "application/json");
+        String body = "Start";
         exchange.sendResponseHeaders(200, body.length());
         try (OutputStream os = exchange.getResponseBody()) { // (1)
             os.write(body.getBytes());
