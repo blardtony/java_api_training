@@ -25,7 +25,7 @@ public class Launcher {
 
     }
     private static void handle(HttpExchange exchange) throws IOException {
-        String body = "Hello";
+        String body = "OK";
         exchange.sendResponseHeaders(200, body.length());
         try (OutputStream os = exchange.getResponseBody()) { // (1)
             os.write(body.getBytes());
