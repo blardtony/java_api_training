@@ -13,11 +13,10 @@ import java.util.concurrent.Executors;
 public class Launcher {
     public static void main(String[] args) {
         int port = Integer.parseInt(args[0]);
-        ExecutorService thread = Executors.newFixedThreadPool(1);
         try {
-            HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-            server.setExecutor(thread);
             System.out.println("Server start at port " + port);
+            HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
+            server.setExecutor(Executors.newSingleThreadExecutor());
             server.createContext("/ping", Launcher::handle );
             server.start();
         } catch (IOException e) {
