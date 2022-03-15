@@ -1,52 +1,31 @@
 package fr.lernejo.navy_battle;
 
-import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.util.UUID;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
-    HttpServer server;
-    Record request;
-    public void start(int port) throws IOException {
-         request = new Request(
-            UUID.randomUUID().toString(),
-            "http://localhost:" + port,
-            "Server Start"
-        );
-        server = HttpServer.create(new InetSocketAddress(port), 0);
-        server.setExecutor(Executors.newSingleThreadExecutor());
-        server.createContext("/ping", this::handle);
-        createContexts();
-        server.start();
+    private final int port;
+
+    public Server(int port) {
+        this.port = port;
     }
 
-    public void createContexts() {
-        server.createContext("/api/game/start", this::startGame);
-    }
-
-    public void startGame(HttpExchange exchange) throws IOException {
-
-        exchange.getResponseHeaders().set("Content-type", "application/json");
-        String body = "Start";
-        exchange.sendResponseHeaders(200, body.length());
-        try (OutputStream os = exchange.getResponseBody()) { // (1)
-            os.write(body.getBytes());
+    public void start(){
+        InetSocketAddress socketAddress = new InetSocketAddress(port);
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
+        try {
+            HttpServer httpServer = HttpServer.create(socketAddress, 0);
+            System.out.println("Server start at port : " + port);
+            httpServer.setExecutor(executorService);
+            httpServer.createContext("/ping", new Ping());
+            httpServer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    }
-    public void stop() {
-        server.stop(0);
-    }
 
-    private void handle(HttpExchange exchange) throws IOException {
-        String body = "OK";
-        exchange.sendResponseHeaders(200, body.length());
-        try (OutputStream os = exchange.getResponseBody()) { // (1)
-            os.write(body.getBytes());
-        }
     }
 }
