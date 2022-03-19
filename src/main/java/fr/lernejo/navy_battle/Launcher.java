@@ -1,5 +1,9 @@
 package fr.lernejo.navy_battle;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 public class Launcher {
     public static void main(String[] args) {
         if (args.length < 1) {
@@ -7,7 +11,10 @@ public class Launcher {
             return;
         }
         int port = Integer.parseInt(args[0]);
-        Server server = new Server(port);
+        final Map<String, String> gameInfo = new HashMap<String, String>();
+        gameInfo.put("id", UUID.randomUUID().toString());
+        gameInfo.put("port", String.valueOf(port));
+        Server server = new Server(port, gameInfo);
         server.start();
     }
 }
