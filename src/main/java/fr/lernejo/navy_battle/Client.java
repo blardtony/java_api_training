@@ -17,6 +17,7 @@ public class Client {
             .POST(HttpRequest.BodyPublishers.ofString("{\"id\":\"1\", \"url\":\"http://localhost:" + gameInfo.get("port") + "\", \"message\":\"hello\"}"))
             .build();
         client.sendAsync(requestPost,  HttpResponse.BodyHandlers.ofString());
+        fire(url, "F4");
     }
 
     public void fire(String url, String cell) {
