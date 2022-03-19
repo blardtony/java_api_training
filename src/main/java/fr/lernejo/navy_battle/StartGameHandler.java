@@ -13,15 +13,16 @@ import java.util.Map;
 
 public class StartGameHandler implements HttpHandler {
     private final Map<String, String> gameInfo;
-
-    public StartGameHandler(Map<String, String> gameInfo) {
+    private final Client client;
+    public StartGameHandler(Map<String, String> gameInfo, Client client) {
         this.gameInfo = gameInfo;
+        this.client = client;
     }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println(exchange.getRequestMethod());
+
         if (exchange.getRequestMethod().equals("POST")) {
             try {
                 InputStream response = exchange.getRequestBody();
@@ -48,5 +49,7 @@ public class StartGameHandler implements HttpHandler {
         else {
             exchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0);
         }
+        String cell = "B2";
+        client.fire(gameInfo.get("url"), cell);
     }
 }

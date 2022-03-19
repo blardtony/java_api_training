@@ -17,7 +17,7 @@ public class Launcher {
 
         Server server = new Server(port, gameInfo);
         if (args.length == 2) {
-            Client.start(args[1], gameInfo);
+            new Client().start(args[1], gameInfo);
         }
         server.start();
     }
