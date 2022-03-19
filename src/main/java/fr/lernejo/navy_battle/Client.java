@@ -1,5 +1,6 @@
 package fr.lernejo.navy_battle;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -16,8 +17,11 @@ public class Client {
             .setHeader("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString("{\"id\":\"1\", \"url\":\"http://localhost:" + gameInfo.get("port") + "\", \"message\":\"hello\"}"))
             .build();
-        client.sendAsync(requestPost,  HttpResponse.BodyHandlers.ofString());
-        fire(url, "F4");
+        try {
+            client.send(requestPost,  HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void fire(String url, String cell) {
@@ -27,6 +31,10 @@ public class Client {
             .setHeader("Content-Type", "application/json")
             .GET()
             .build();
-        client.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString());
+        try {
+            client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
