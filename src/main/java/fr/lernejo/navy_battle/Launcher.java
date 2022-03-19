@@ -17,8 +17,9 @@ public class Launcher {
 
         Server server = new Server(port, gameInfo);
         if (args.length == 2) {
-            new Client().start(args[1], gameInfo);
-            new Client().fire(args[1], "F4");
+            Client client = new Client();
+            client.start(args[1], gameInfo);
+            client.fire(args[1], "A4");
         }
         server.start();
     }
