@@ -4,13 +4,16 @@ import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
     private final int port;
-
-    public Server(int port) {
+    private final Map<String, String> gameInfo;
+    public Server(int port, Map<String, String> gameInfo) {
+        this.gameInfo = gameInfo;
         this.port = port;
     }
 
@@ -19,9 +22,15 @@ public class Server {
         ExecutorService executorService = Executors.newFixedThreadPool(1);
         try {
             HttpServer httpServer = HttpServer.create(socketAddress, 0);
+            StartGameHandler startGameHandler = new StartGameHandler(gameInfo);
+
             System.out.println("Server start at port : " + port);
+
             httpServer.setExecutor(executorService);
-            httpServer.createContext("/ping", new Ping());
+
+            httpServer.createContext("/ping", new PingHandler());
+            httpServer.createContext("/api/game/start", startGameHandler);
+
             httpServer.start();
         } catch (IOException e) {
             e.printStackTrace();
