@@ -22,6 +22,7 @@ public class Client {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+        fire(url, "A5");
     }
 
     public void fire(String url, String cell) {
