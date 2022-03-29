@@ -11,14 +11,15 @@ public class Launcher {
             return;
         }
         int port = Integer.parseInt(args[0]);
-        final Map<String, String> gameInfo = new HashMap<String, String>();
+        final Map<String, String> gameInfo = new HashMap<>();
         gameInfo.put("id", UUID.randomUUID().toString());
         gameInfo.put("port", String.valueOf(port));
         Client client = new Client();
         Server server = new Server(port, gameInfo, client);
+        server.start();
         if (args.length == 2) {
+            gameInfo.put("client_url", args[1]);
             client.start(args[1], gameInfo);
         }
-        server.start();
     }
 }
