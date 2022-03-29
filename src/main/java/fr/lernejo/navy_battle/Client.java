@@ -8,7 +8,11 @@ import java.net.http.HttpResponse;
 import java.util.Map;
 
 public class Client {
-    private final HttpClient client = HttpClient.newHttpClient();
+    private final HttpClient client;
+
+    public Client(HttpClient client) {
+        this.client = client;
+    }
 
     public void start(String url, Map<String, String> gameInfo) {
         HttpRequest requestPost = HttpRequest.newBuilder()

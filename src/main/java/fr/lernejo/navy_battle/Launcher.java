@@ -1,5 +1,6 @@
 package fr.lernejo.navy_battle;
 
+import java.net.http.HttpClient;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -14,7 +15,7 @@ public class Launcher {
         final Map<String, String> gameInfo = new HashMap<>();
         gameInfo.put("id", UUID.randomUUID().toString());
         gameInfo.put("port", String.valueOf(port));
-        Client client = new Client();
+        Client client = new Client(HttpClient.newHttpClient());
         Server server = new Server(port, gameInfo, client);
         server.start();
         if (args.length == 2) {
