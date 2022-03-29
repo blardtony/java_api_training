@@ -50,6 +50,6 @@ public class StartGameHandler implements HttpHandler {
             exchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0);
         }
         String cell = "B2";
-        client.fire(gameInfo.get("url"), cell);
+        client.fire(gameInfo.get("client_url"), cell);
     }
 }
