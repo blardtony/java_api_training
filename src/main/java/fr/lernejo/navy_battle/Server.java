@@ -24,19 +24,13 @@ public class Server {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         try {
             HttpServer httpServer = HttpServer.create(socketAddress, 0);
-
             System.out.println("Server start at port : " + port);
-
             StartGameHandler startGameHandler = new StartGameHandler(gameInfo, client);
-
             httpServer.createContext("/ping", new PingHandler());
             httpServer.createContext("/api/game/start", startGameHandler);
             httpServer.createContext("/api/game/fire", new FireHandler(gameInfo));
             httpServer.setExecutor(executorService);
             httpServer.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        } catch (IOException e) {e.printStackTrace();}
     }
 }
