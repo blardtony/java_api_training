@@ -14,10 +14,9 @@ public class Launcher {
         final Map<String, String> gameInfo = new HashMap<String, String>();
         gameInfo.put("id", UUID.randomUUID().toString());
         gameInfo.put("port", String.valueOf(port));
-
-        Server server = new Server(port, gameInfo);
+        Client client = new Client();
+        Server server = new Server(port, gameInfo, client);
         if (args.length == 2) {
-            Client client = new Client();
             client.start(args[1], gameInfo);
         }
         server.start();

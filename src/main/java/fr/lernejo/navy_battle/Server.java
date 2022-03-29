@@ -12,10 +12,11 @@ import java.util.concurrent.Executors;
 public class Server {
     private final int port;
     private final Map<String, String> gameInfo;
-    private final Client client = new Client();
-    public Server(int port, Map<String, String> gameInfo) {
+    private final Client client;
+    public Server(int port, Map<String, String> gameInfo, Client client) {
         this.gameInfo = gameInfo;
         this.port = port;
+        this.client = client;
     }
 
     public void start(){
