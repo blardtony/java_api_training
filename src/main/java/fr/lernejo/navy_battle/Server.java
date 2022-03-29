@@ -21,18 +21,18 @@ public class Server {
 
     public void start(){
         InetSocketAddress socketAddress = new InetSocketAddress(port);
-        ExecutorService executorService = Executors.newFixedThreadPool(1);
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
         try {
             HttpServer httpServer = HttpServer.create(socketAddress, 0);
-            StartGameHandler startGameHandler = new StartGameHandler(gameInfo, client);
 
             System.out.println("Server start at port : " + port);
 
-            httpServer.setExecutor(executorService);
+            StartGameHandler startGameHandler = new StartGameHandler(gameInfo, client);
 
             httpServer.createContext("/ping", new PingHandler());
             httpServer.createContext("/api/game/start", startGameHandler);
             httpServer.createContext("/api/game/fire", new FireHandler(gameInfo));
+            httpServer.setExecutor(executorService);
             httpServer.start();
         } catch (IOException e) {
             e.printStackTrace();
