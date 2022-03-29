@@ -26,7 +26,7 @@ public class Client {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-        fire(url, "B2");
+        fire("http://localhost:" + gameInfo.get("port"), "B2");
     }
 
     public void fire(String url, String cell) {
