@@ -11,21 +11,22 @@ import java.util.Map;
 
 public class FireHandler implements HttpHandler {
     private final Map<String, String> gameInfo;
-
-    public FireHandler(Map<String, String> gameInfo) {
+    private final Client client;
+    public FireHandler(Map<String, String> gameInfo, Client client) {
         this.gameInfo = gameInfo;
+        this.client = client;
     }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        URI url = exchange.getRequestURI();
-
         RequestFire requestFire = new RequestFire(EnumConsequence.miss, true);
         String messageSend = objectMapper.writeValueAsString(requestFire);
         exchange.getResponseHeaders().add("Content-type", "application/json");
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_ACCEPTED, messageSend.getBytes().length);
         exchange.getResponseBody().write(messageSend.getBytes());
+
+        client.fire(gameInfo.get("client_url"), "B7");
     }
 }

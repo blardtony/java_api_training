@@ -8,10 +8,9 @@ import java.net.http.HttpResponse;
 import java.util.Map;
 
 public class Client {
-    private final HttpClient client;
+    private final HttpClient client = HttpClient.newHttpClient();
 
-    public Client(HttpClient client) {
-        this.client = client;
+    public Client() {
     }
 
     public void start(String url, Map<String, String> gameInfo) {
@@ -21,11 +20,8 @@ public class Client {
             .setHeader("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString("{\"id\":\"1\", \"url\":\"http://localhost:" + gameInfo.get("port") + "\", \"message\":\"hello\"}"))
             .build();
-        try {
-            client.send(requestPost,  HttpResponse.BodyHandlers.ofString());
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        client.sendAsync(requestPost,  HttpResponse.BodyHandlers.ofString());
+
         fire("http://localhost:" + gameInfo.get("port"), "B2");
     }
 
@@ -36,10 +32,6 @@ public class Client {
             .setHeader("Content-Type", "application/json")
             .GET()
             .build();
-        try {
-            client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        client.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString());
     }
 }

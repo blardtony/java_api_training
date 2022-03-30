@@ -28,7 +28,7 @@ public class Server {
             StartGameHandler startGameHandler = new StartGameHandler(gameInfo, client);
             httpServer.createContext("/ping", new PingHandler());
             httpServer.createContext("/api/game/start", startGameHandler);
-            httpServer.createContext("/api/game/fire", new FireHandler(gameInfo));
+            httpServer.createContext("/api/game/fire", new FireHandler(gameInfo, client));
             httpServer.setExecutor(executorService);
             httpServer.start();
         } catch (IOException e) {e.printStackTrace();}
