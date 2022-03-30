@@ -37,8 +37,10 @@ public class StartGameTest {
 
         String expectedMessage = "May the best code win";
         String expectedUrl = "http://localhost:" + port;
+        String expectedId = "id";
         Assertions.assertEquals(HttpURLConnection.HTTP_ACCEPTED, httpResponse.statusCode());
         Assertions.assertEquals(expectedMessage, requestReceive.getMessage());
         Assertions.assertEquals(expectedUrl, requestReceive.getUrl());
     }
+
 }
